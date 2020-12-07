@@ -14,55 +14,41 @@ var notesI = [];
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname,"Develop/public")));
-
-
-
-app.get("../db/db.json", function (err, res) {
+app.get("../db/db.json", function (res) {
   try {
+    //reads db.js
     notesI = fs.readFileSync("Develop/db/db.json", "utf8");
+    //adds to db.json
     notesI = JSON.parse(notesI);
   } catch (err) {
     console.log(err);
   } res.json(notesI); 
 }); 
-
-app.post("../db/db.json", function (req, res) {
+app.post("../db/db.json", function (req,res) {
   try {
-    //recieve
+    //reads db.json
     notesI = fs.readFileSync("Develop/db/db.json", "utf8");
     //add to json
     notesI = JSON.parse(notesI);
-    req.body.id = notesI.length; 
+    req.body.id = notesI.length;
+    //pushes to body 
     notesI.push(req.body);
     notesI = JSON.stringify(notesI);
+    // pushes to page
     fs.writefile("Develop/db/db.json", notesI, "utf8", function (err) {
       if (err) throw err;
     }); res.json(JSON.parse(notesI));
-  } catch (err) {
-    throw err;
-  };
+  } catch (err) {throw err;};
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.delete("../db/db.json/:id", function (req, res) {
+app.delete("../db/db.json/:id", function (req,res) {
   try {
+    //reads db.json
     notesI = fs.readFileSync("Develop/db/db.json", "utf8");
+    //adds db.json
     notesI = JSON.parse(notesI);
+    //filters through to find set id tag
     notesI = noteI.filter(function (notes) {
+      //sets it not equal to  delete
       return notes.id != req.params.id;
     });
     notesI = JSON.stringify(notesI);
@@ -70,64 +56,19 @@ app.delete("../db/db.json/:id", function (req, res) {
       if (err) throw err;
     });
     res.send(JSON.parse(notesI));
-  } catch (err) {
-    throw err;
-  }
+  } catch (err) {throw err;}
 });
-
 // Routes
 // =============================================================
-
-// Basic route that sends the user first to the AJAX Page
-
-
-
-
-
-
-app.get("/notes", function (req, res) {
+app.get("/notes", function (res) {
   res.sendFile(path.join("Develop/public/notes.html"));
 });
-
-app.get("*", function (req, res) {
+app.get("*", function (res) {
   res.sendFile(path.join( "Develop/public/index.html"));
 });
-app.get("/api/notes", function (req, res) {
+app.get("/api/notes", function (res) {
   return res.sendFile(path.json( "Develop/db/db.json"));
 });
-
-// Displays a single character, or returns false
-// app.get("/api/notes/:id", function(req, res{
-//   var chosen = req.params.notes;
-
-//   console.log(chosen);
-
-//   for (var i = 0; i < notes.length; i++{
-//     if (chosen === notes[i].routeName{
-//       return res.json(notes[i]);
-//     }
-//   }
-
-//   return res.json(false);
-// });
-
-// Create New Characters - takes in JSON input
-// app.post("/api/notes", function(req, res{
-//   // req.body hosts is equal to the JSON post sent from the user
-//   // This works because of our body parsing middleware
-//   var newNote = req.body;
-
-//   // Using a RegEx Pattern to remove spaces from newCharacter
-//   // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-//   newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
-
-//   console.log(newNote);
-
-//   notes.push(newNote);
-
-//   res.json(newNote);
-// });
-
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function () {
