@@ -17,3 +17,6 @@ Here is a SS of it running off of GitHub Pages: ![image](https://user-images.git
 
 Here is a SS of it running off a Local Server: ![image](https://user-images.githubusercontent.com/70170024/101320397-afdd4900-3831-11eb-9070-31c7d2528164.png)
 
+Also, I ran into another Issue where I reached the concurrent builds limit.
+Here is a SS of where is would not allow me to do a "git push heroku main": ![image](https://user-images.githubusercontent.com/70170024/101320758-4578d880-3832-11eb-8b68-509a7caa649d.png)
+
