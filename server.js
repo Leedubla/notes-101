@@ -27,7 +27,7 @@ app.get("../db/db.json", function (err, res) {
   } res.json(notesI); 
 }); 
 
-app.post("../db/db.json", function (reg, res) {
+app.post("../db/db.json", function (req, res) {
   try {
     //recieve
     notesI = fs.readFileSync("Develop/db/db.json", "utf8");
@@ -86,11 +86,11 @@ app.delete("../db/db.json/:id", function (req, res) {
 
 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/public/notes.html"));
+  res.sendFile(path.join("Develop/public/notes.html"));
 });
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/public/index.html"));
+  res.sendFile(path.join( "Develop/public/index.html"));
 });
 app.get("/api/notes", function (req, res) {
   return res.sendFile(path.json( "Develop/db/db.json"));
